@@ -1,16 +1,19 @@
 import { View, Text, Button, TextInput } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import {
+  NavigationContext,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import useReference from "../../hooks/useReference";
 import { ModalContext } from "../../components/AppModal";
 import AddIngredientsModal from "../../components/AppModal/Modals/AddIngredientModal";
 import useList from "../../hooks/useList";
-import listToArray from "../../helpers/listToArray";
 
-export default function Recipe() {
+const Recipe = ({}: { navigation: any }) => {
   const appModal = useContext(ModalContext);
-
-  const navigation = useNavigation();
+  const navigation = useContext(NavigationContext);
+  // const navigation = useNavigation();
   const route = useRoute();
   const params = route.params as any;
   const key = params.key;
@@ -23,9 +26,6 @@ export default function Recipe() {
 
   const ingredients = useList("recipes/" + key + "/ingredients");
 
-  // console.log(ingredients.data);
-  // const ingredientsList = listToArray(ingredients.data || {});
-  // console.log(ingredientsList);
   const ingredientsList = Object.keys(ingredients.data || {});
   console.log(ingredientsList);
 
@@ -49,7 +49,7 @@ export default function Recipe() {
       directions,
     };
     setRecipe!(updatedRecipe);
-    navigation.goBack();
+    navigation?.goBack();
   };
 
   return (
@@ -75,4 +75,6 @@ export default function Recipe() {
       <Button title="Save" onPress={handleSave} />
     </View>
   );
-}
+};
+
+export default Recipe;
