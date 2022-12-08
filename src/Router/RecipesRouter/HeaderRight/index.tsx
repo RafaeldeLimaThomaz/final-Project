@@ -2,12 +2,28 @@ import { View, Text, TouchableOpacity } from "react-native";
 import React, { useContext } from "react";
 import { Icon } from "react-native-elements";
 import { NavigationContext } from "@react-navigation/native";
-import { AppContext, AppContextProps } from "../../contexts/AppContext";
+import { AppContext, AppContextProps } from "../../../contexts/AppContext";
+import useList from "../../../hooks/useList";
+import RecipeShape from "../../../types/RecipeShape";
 
 export default function HeaderRight() {
   const navigation = useContext(NavigationContext);
 
   const appContext = useContext<AppContextProps>(AppContext);
+
+  const recipes = useList("recipes");
+
+  const handleCreateRecipe = async () => {
+    const newRecipe: RecipeShape = {
+      name: "",
+      description: "",
+      directions: "",
+    };
+
+    const createdKey = await recipes.create(newRecipe);
+
+    navigation?.navigate("Recipe", { key: createdKey });
+  };
 
   return (
     <View style={{ flexDirection: "row" }}>
@@ -32,11 +48,7 @@ export default function HeaderRight() {
         style={{
           marginRight: 25,
         }}
-        onPress={() => {
-          navigation?.navigate("Criar Receita", {
-            body: "Criar Receita",
-          });
-        }}
+        onPress={handleCreateRecipe}
       >
         <Icon
           name="plus"

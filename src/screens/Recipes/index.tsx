@@ -4,26 +4,16 @@ import { NavigationContext } from "@react-navigation/native";
 import useList from "../../hooks/useList";
 import listToArray from "../../helpers/listToArray";
 import RecipeShape from "../../types/RecipeShape";
+import { AppContext } from "../../contexts/AppContext";
 
 const Recipes = () => {
+  const appContext = useContext(AppContext);
   const navigation = useContext(NavigationContext);
   const recipes = useList("recipes");
   const recipesList = listToArray(recipes.data || {});
 
-  const handleCreateRecipe = async () => {
-    const newRecipe: RecipeShape = {
-      name: "",
-      description: "",
-      directions: "",
-    };
-
-    const createdKey = await recipes.create(newRecipe);
-
-    navigation?.navigate("Recipe", { key: createdKey });
-  };
-
-  const handleEdit = (key: string | undefined) => {
-    if (key) navigation?.navigate("Recipe", { key });
+  const handleEdit = (refKey: string | undefined) => {
+    if (refKey) navigation?.navigate("Recipe", { refKey });
   };
 
   const renderItem = (item: RecipeShape) => (
@@ -31,13 +21,15 @@ const Recipes = () => {
       <Text>{item.name}</Text>
       <Text>{item.description}</Text>
       <Text>{item.directions}</Text>
+      <Text>{JSON.stringify(item.ingredients)}</Text>
       <Button title="Edit" onPress={() => handleEdit(item.key)} />
     </View>
   );
 
   return (
     <View style={{ marginTop: 30 }}>
-      <Button onPress={handleCreateRecipe} title="Create Recipe" />
+      {appContext.searchBarVisible && <Text>Search Bar HERE!!</Text>}
+
       <FlatList
         data={recipesList}
         renderItem={(itemInfo) => renderItem(itemInfo.item)}

@@ -34,7 +34,7 @@ export default function MenuDrawerContent(props: any) {
           label="Receitas"
           icon={{ name: "book", type: "entypo" }}
           callback={() => {
-            props.navigation.navigate("Receitas", { body: "receitas" });
+            props.navigation.navigate("RecipesRouter", { body: "receitas" });
           }}
         />
 

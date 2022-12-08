@@ -16,15 +16,17 @@ const Recipe = ({}: { navigation: any }) => {
   // const navigation = useNavigation();
   const route = useRoute();
   const params = route.params as any;
-  const key = params.key;
+  const refKey = params.refKey;
 
-  const [recipe, setRecipe] = useReference("recipes/" + key);
+  console.log(">>", refKey);
+
+  const [recipe, setRecipe] = useReference("recipes/" + refKey);
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [directions, setDirections] = useState("");
 
-  const ingredients = useList("recipes/" + key + "/ingredients");
+  const ingredients = useList("recipes/" + refKey + "/ingredients");
 
   const ingredientsList = Object.keys(ingredients.data || {});
   console.log(ingredientsList);
@@ -38,7 +40,7 @@ const Recipe = ({}: { navigation: any }) => {
   }, [recipe]);
 
   const handleAddIngredient = () => {
-    appModal.show(<AddIngredientsModal recipeKey={key} />);
+    appModal.show(<AddIngredientsModal recipeKey={refKey} />);
   };
 
   const handleSave = () => {
@@ -68,8 +70,8 @@ const Recipe = ({}: { navigation: any }) => {
       />
       <Button title="Add Ingredient" onPress={handleAddIngredient} />
 
-      {ingredientsList.map((ingrendient) => (
-        <Text>{ingrendient}</Text>
+      {ingredientsList.map((ingrendient, index) => (
+        <Text key={index}>{ingrendient}</Text>
       ))}
 
       <Button title="Save" onPress={handleSave} />

@@ -1,17 +1,15 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import { Button } from "react-native";
-import HeaderRight from "../components/HeaderRight";
-import MenuDrawerContent from "../components/MenuDrawerContent";
+import HeaderRight from "./RecipesRouter/HeaderRight";
+import MenuDrawerContent from "./MenuDrawerContent";
 import useAuth from "../hooks/useAuth";
 import Home from "../screens/Home";
 import Login from "../screens/Login";
 import Recipe from "../screens/Recipe";
 import Recipes from "../screens/Recipes";
+import RecipesRouter from "./RecipesRouter";
 
-const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
 export default function Router() {
@@ -30,9 +28,10 @@ export default function Router() {
         <Drawer.Screen name="Home" component={Home} />
         {/* <Drawer.Screen name="Agenda" component={MyAgenda} />
               <Drawer.Screen name="Cronograma" component={TimeLine} /> */}
+
         <Drawer.Screen
-          name="Receitas"
-          component={Recipes}
+          name="RecipesRouter"
+          component={RecipesRouter}
           options={{
             headerRight: () => <HeaderRight />,
           }}
@@ -44,20 +43,7 @@ export default function Router() {
                 name="Receita Detalhada"
                 component={RecipeDetails}
               /> */}
-        <Drawer.Screen name="Recipe" component={Recipe} />
       </Drawer.Navigator>
-      {/* <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{
-            headerRight: () => (
-              <Button onPress={() => logout()} title="Logout" />
-            ),
-          }}
-        />
-        <Stack.Screen name="Recipe" component={Recipe} />
-      </Stack.Navigator> */}
     </NavigationContainer>
   );
 }
