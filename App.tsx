@@ -11,8 +11,7 @@ import HeaderRight from "./src/components/HeaderRight";
 import Home from "./src/screens/Home";
 import Recipes from "./src/screens/Recipes";
 import Recipe from "./src/screens/Recipe";
-
-const Drawer = createDrawerNavigator();
+import Router from "./src/Router";
 
 export default function App() {
   const [searchBarVisible, setSearchBarVisible] = React.useState(false);
@@ -28,31 +27,7 @@ export default function App() {
     <AppModal>
       <View style={styles.container}>
         <AppContext.Provider value={appContext}>
-          <NavigationContainer>
-            <Drawer.Navigator
-              drawerContent={(props) => <MenuDrawerContent {...props} />}
-              initialRouteName="Home"
-            >
-              <Drawer.Screen name="Home" component={Home} />
-              {/* <Drawer.Screen name="Agenda" component={MyAgenda} />
-              <Drawer.Screen name="Cronograma" component={TimeLine} /> */}
-              <Drawer.Screen
-                name="Receitas"
-                component={Recipes}
-                options={{
-                  headerRight: () => <HeaderRight />,
-                }}
-              />
-
-              {/* <Drawer.Screen name="Lista de compras" component={ShoppingList} /> */}
-              {/* <Drawer.Screen name="Criar Receita" component={CreateRecipe} /> */}
-              {/* <Drawer.Screen
-                name="Receita Detalhada"
-                component={RecipeDetails}
-              /> */}
-              <Drawer.Screen name="Recipe" component={Recipe} />
-            </Drawer.Navigator>
-          </NavigationContainer>
+          <Router />
         </AppContext.Provider>
       </View>
     </AppModal>
