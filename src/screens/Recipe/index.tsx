@@ -18,7 +18,7 @@ const Recipe = ({}: { navigation: any }) => {
   const params = route.params as any;
   const refKey = params.refKey;
 
-  console.log(">>", refKey);
+  console.log("Opening Recipe: ", refKey);
 
   const [recipe, setRecipe] = useReference("recipes/" + refKey);
 
@@ -40,10 +40,11 @@ const Recipe = ({}: { navigation: any }) => {
   }, [recipe]);
 
   const handleAddIngredient = () => {
+    handleSave(false);
     appModal.show(<AddIngredientsModal recipeKey={refKey} />);
   };
 
-  const handleSave = () => {
+  const handleSave = (goBack: boolean = true) => {
     let updatedRecipe = {
       ...recipe,
       name,
@@ -51,7 +52,7 @@ const Recipe = ({}: { navigation: any }) => {
       directions,
     };
     setRecipe!(updatedRecipe);
-    navigation?.goBack();
+    if (goBack) navigation?.goBack();
   };
 
   return (
@@ -74,7 +75,7 @@ const Recipe = ({}: { navigation: any }) => {
         <Text key={index}>{ingrendient}</Text>
       ))}
 
-      <Button title="Save" onPress={handleSave} />
+      <Button title="Save" onPress={() => handleSave()} />
     </View>
   );
 };

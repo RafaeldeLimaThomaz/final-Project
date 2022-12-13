@@ -22,7 +22,7 @@ export default function HeaderRight() {
 
     const createdKey = await recipes.create(newRecipe);
 
-    navigation?.navigate("Recipe", { key: createdKey });
+    navigation?.navigate("Recipe", { refKey: createdKey });
   };
 
   return (
