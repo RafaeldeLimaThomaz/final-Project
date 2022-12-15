@@ -1,4 +1,4 @@
-import { getDatabase, onValue, ref, set, update } from "firebase/database";
+import { getDatabase, onValue, ref, update } from "firebase/database";
 import { useState, useEffect } from "react";
 import useAuth from "./useAuth";
 
@@ -9,6 +9,7 @@ export default function useReference(reference, defaultVal = null) {
     const databaseReference = ref(getDatabase(), reference);
     update(databaseReference, newVal);
   };
+
 
   const { user } = useAuth();
 

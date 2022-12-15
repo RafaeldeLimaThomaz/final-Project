@@ -12,6 +12,7 @@ export default function Home() {
       }}
     >
       <Text>Home</Text>
+      <Text>To be implemented ...</Text>
     </View>
   );
 }

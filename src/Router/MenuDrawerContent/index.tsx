@@ -18,7 +18,8 @@ export default function MenuDrawerContent(props: any) {
           label="Agenda"
           icon={{ name: "calendar", type: "entypo" }}
           callback={() => {
-            props.navigation.navigate("Agenda", { body: "agenda" });
+            alert("Time favors those who are patient. ");
+            // props.navigation.navigate("Agenda", { body: "agenda" });
           }}
         />
 
@@ -26,7 +27,8 @@ export default function MenuDrawerContent(props: any) {
           label="Cronograma"
           icon={{ name: "check", type: "entypo" }}
           callback={() => {
-            props.navigation.navigate("Cronograma", { body: "cronograma" });
+            alert("I'll be back soon!");
+            // props.navigation.navigate("Cronograma", { body: "cronograma" });
           }}
         />
 
@@ -42,9 +44,10 @@ export default function MenuDrawerContent(props: any) {
           label="Lista de Compras"
           icon={{ name: "cart", type: "ionicon" }}
           callback={() => {
-            props.navigation.navigate("Lista de compras", {
-              body: "lista de compras",
-            });
+            alert("Wait and You'll see!");
+            // props.navigation.navigate("Lista de compras", {
+            //   body: "lista de compras",
+            // });
           }}
         />
 

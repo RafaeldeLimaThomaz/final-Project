@@ -1,14 +1,13 @@
-import { View, Text, Button, TextInput } from "react-native";
+import { View, Text, Button, TextInput, TouchableOpacity } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import {
-  NavigationContext,
-  useNavigation,
-  useRoute,
-} from "@react-navigation/native";
+import { NavigationContext, useRoute } from "@react-navigation/native";
 import useReference from "../../hooks/useReference";
 import { ModalContext } from "../../components/AppModal";
 import AddIngredientsModal from "../../components/AppModal/Modals/AddIngredientModal";
 import useList from "../../hooks/useList";
+import styles from "./styles";
+import { Card } from "react-native-elements";
+import { getDatabase, ref, remove } from "firebase/database";
 
 const Recipe = ({}: { navigation: any }) => {
   const appModal = useContext(ModalContext);
@@ -55,27 +54,121 @@ const Recipe = ({}: { navigation: any }) => {
     if (goBack) navigation?.goBack();
   };
 
+  const handleDiscard = (goBack: boolean = true) => {
+    remove(ref(getDatabase(), "recipes/" + refKey));
+    if (goBack) navigation?.goBack();
+  };
+
   return (
     <View>
-      <Text>Recipe</Text>
-      <TextInput value={name} onChangeText={setName} placeholder="name" />
-      <TextInput
-        value={description}
-        onChangeText={setDescription}
-        placeholder="description"
-      />
-      <TextInput
-        value={directions}
-        onChangeText={setDirections}
-        placeholder="directions"
-      />
-      <Button title="Add Ingredient" onPress={handleAddIngredient} />
+      <Card
+        containerStyle={{
+          width: "90%",
+          backgroundColor: "#EF3762",
+          borderRadius: 10,
+          alignContent: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Text
+          style={{
+            textAlign: "center",
+            margin: 10,
+            color: "white",
+            fontWeight: "bold",
+          }}
+        >
+          Nova Receita
+        </Text>
+        <Card.Divider color="white" width={1} />
+        <TextInput
+          value={name}
+          onChangeText={setName}
+          placeholder="Nome"
+          style={styles.titleInput}
+          textAlign={"center"}
+          placeholderTextColor={"#fee9e9"}
+        />
+        <TextInput
+          value={description}
+          onChangeText={setDescription}
+          placeholder="Descrição"
+          style={styles.titleInput}
+          placeholderTextColor={"#fee9e9"}
+          textAlign={"center"}
+        />
+        <TextInput
+          value={directions}
+          onChangeText={setDirections}
+          placeholder="Modo de Preparo"
+          style={styles.titleInput}
+          placeholderTextColor={"#fee9e9"}
+          textAlign={"center"}
+        />
+        <TouchableOpacity
+          style={{
+            justifyContent: "center",
+            alignContent: "center",
+            alignItems: "center",
+            backgroundColor: "#FF4984",
+            borderRadius: 10,
+            marginTop: 20,
+            marginLeft: 53,
+            marginBottom: 20,
+            borderWidth: 1,
+            borderColor: "white",
+            width: 200,
+            height: 30,
+          }}
+          onPress={handleAddIngredient}
+        >
+          <Text style={{ color: "white" }}>Adicionar Ingrediente</Text>
+        </TouchableOpacity>
+        {ingredientsList.map((ingrendient, index) => (
+          <Text key={index}>{ingrendient}</Text>
+        ))}
+      </Card>
 
-      {ingredientsList.map((ingrendient, index) => (
-        <Text key={index}>{ingrendient}</Text>
-      ))}
-
-      <Button title="Save" onPress={() => handleSave()} />
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          margin: 30,
+        }}
+      >
+        <TouchableOpacity
+          style={{
+            justifyContent: "center",
+            alignContent: "center",
+            alignItems: "center",
+            backgroundColor: "#087530",
+            borderRadius: 10,
+            borderWidth: 1,
+            borderColor: "white",
+            width: 100,
+            height: 40,
+          }}
+          onPress={() => handleSave()}
+        >
+          <Text style={{ color: "white" }}>Salvar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            justifyContent: "center",
+            alignContent: "center",
+            alignItems: "center",
+            backgroundColor: "#ca154e",
+            borderRadius: 10,
+            borderWidth: 1,
+            borderColor: "white",
+            width: 100,
+            height: 40,
+          }}
+          onPress={() => handleDiscard()}
+        >
+          <Text style={{ color: "white" }}>Deletar</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
